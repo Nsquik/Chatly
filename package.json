@@ -15,10 +15,13 @@
     }
   },
   "dependencies": {
+    "@absinthe/socket": "^0.2.1",
+    "@absinthe/socket-apollo-link": "^0.2.1",
     "@apollo/client": "^3.2.5",
     "expo": "~39.0.2",
     "expo-status-bar": "~1.0.2",
     "graphql": "^15.3.0",
+    "phoenix": "^1.5.6",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
@@ -27,6 +30,9 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "@types/absinthe__socket": "^0.2.1",
+    "@types/absinthe__socket-apollo-link": "^0.2.1",
+    "@types/phoenix": "^1.5.0",
     "@types/react": "~16.9.35",
     "@types/react-dom": "~16.9.8",
     "@types/react-native": "~0.63.2",
