@@ -1,8 +1,22 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloLink, InMemoryCache, split } from "@apollo/client";
+import { getMainDefinition } from "@apollo/client/utilities";
+import { authLink, httpLink } from "@res/apollo/httpLink";
+import { wsLink } from "@res/apollo/wsLink";
 
-import { authLink, httpLink } from "./httpLink";
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  //@ts-ignore
+  wsLink,
+  authLink.concat(httpLink)
+);
 
 export const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: splitLink,
   cache: new InMemoryCache(),
 });

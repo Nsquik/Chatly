@@ -1,9 +1,9 @@
 import * as AbsintheSocket from "@absinthe/socket";
 import { createAbsintheSocketLink } from "@absinthe/socket-apollo-link";
-import { API_KEY } from "@env";
+import { API_KEY, WSS_URL } from "@env";
 import { Socket as PhoenixSocket } from "phoenix";
 
-const phoenixSocket = new PhoenixSocket("ws://localhost:4000/socket", {
+const phoenixSocket = new PhoenixSocket(WSS_URL, {
   params: () => {
     if (API_KEY) {
       return { token: API_KEY };
