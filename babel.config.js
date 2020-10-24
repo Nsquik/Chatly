@@ -14,6 +14,16 @@ module.exports = function (api) {
           allowUndefined: true,
         },
       ],
+      [
+        require.resolve("babel-plugin-module-resolver"),
+        {
+          cwd: "babelrc",
+          extensions: [".ts", ".tsx", ".js", ".ios.js", ".android.js"],
+          alias: {
+            "@res": "./resources",
+          },
+        },
+      ],
     ],
   };
 };
