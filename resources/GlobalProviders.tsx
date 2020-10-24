@@ -5,8 +5,8 @@ import { client } from "./apollo";
 
 export interface Props {}
 
-const AllProviders: React.FC<Props> = ({ children }) => {
+const GlobalProviders: React.FC<Props> = ({ children }) => {
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };
 
-export default AllProviders;
+export default GlobalProviders;
