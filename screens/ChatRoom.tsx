@@ -1,18 +1,17 @@
-import GlobalProviders from "@res/GlobalProviders";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function App() {
+export interface Props {}
+
+const ChatRoom: React.FC<Props> = ({}) => {
   return (
-    <GlobalProviders>
-      <View style={styles.container}>
-        <Text>Open up App.tsx to start working on your app!! </Text>
-        <StatusBar style="auto" />
-      </View>
-    </GlobalProviders>
+    <View style={styles.container}>
+      <Text>CHAT ROOM MOCK</Text>
+      <StatusBar style="auto" />
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -22,3 +21,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+export default ChatRoom;

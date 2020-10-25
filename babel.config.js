@@ -23,6 +23,10 @@ module.exports = function (api) {
           extensions: [".ts", ".tsx", ".js", ".ios.js", ".android.js"],
           alias: {
             "@res": "./resources",
+            "@nav": "./navigation",
+            "@type": "./types",
+            "@assets": "./assets",
+            "@screens": "./screens",
           },
         },
       ],
