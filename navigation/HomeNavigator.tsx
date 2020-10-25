@@ -4,20 +4,6 @@ import ListRooms from "@screens/ListRooms";
 import { HomeStackParams } from "@type/navigation";
 import * as React from "react";
 import { View } from "react-native";
-import styled from "styled-components";
-
-const StyledView = styled(View)`
-  -webkit-box-shadow: 0px 6px 7px -1px rgba(0, 0, 0, 0.32);
-  -moz-box-shadow: 0px 6px 7px -1px rgba(0, 0, 0, 0.32);
-  box-shadow: 0px 6px 7px -1px rgba(0, 0, 0, 0.32);
-  border-bottom-left-radius: 20;
-  border-bottom-right-radius: 20;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-`;
 
 const HomeStack = createStackNavigator<HomeStackParams>();
 
@@ -57,7 +43,12 @@ function HomeNavigator() {
         component={ListRooms}
         options={{ title: "Chatly rooms" }}
       />
-      <HomeStack.Screen name="ChatRoom" component={ChatRoom} />
+      <HomeStack.Screen
+        name="ChatRoom"
+        component={ChatRoom}
+        // @ts-ignore
+        options={({ route }) => ({ title: route?.params?.roomName })}
+      />
     </HomeStack.Navigator>
   );
 }

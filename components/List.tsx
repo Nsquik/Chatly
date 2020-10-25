@@ -12,7 +12,7 @@ const List: React.FC<Props> = ({ data }) => {
     <KittenList
       data={data}
       ItemSeparatorComponent={Divider}
-      renderItem={ListItem}
+      renderItem={(props) => <ListItem {...props} />}
     />
   );
 };

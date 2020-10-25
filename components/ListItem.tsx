@@ -1,10 +1,6 @@
+import { useNavigation } from "@react-navigation/native";
 import { IUserRoom } from "@type/models";
-import {
-  ListItem as KittenItem,
-  Icon,
-  IconProps,
-  ListItemProps,
-} from "@ui-kitten/components";
+import { ListItem as KittenItem, Icon, IconProps } from "@ui-kitten/components";
 import React from "react";
 
 export interface Props {
@@ -12,12 +8,24 @@ export interface Props {
   index: number;
 }
 
-const renderItemIcon = (props: IconProps) => (
-  <Icon {...props} name="arrow-circle-right-outline" />
+const renderItemIcon = (props: IconProps, fill?: string) => (
+  <Icon {...props} name="arrow-circle-right-outline" fill="#3366FF" />
 );
 
 const ListItem: React.FC<Props> = ({ item, index }) => {
-  return <KittenItem title={`${item.name}`} />;
+  const navigation = useNavigation();
+  return (
+    <KittenItem
+      title={`${item.name}`}
+      accessoryLeft={(props) => renderItemIcon(props)}
+      onPress={() =>
+        navigation.navigate("ChatRoom", {
+          roomId: item.id,
+          roomName: item.name,
+        })
+      }
+    />
+  );
 };
 
 export default ListItem;
