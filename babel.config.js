@@ -29,6 +29,7 @@ module.exports = function (api) {
             "@screens": "./screens",
             "@components": "./components",
             "@hooks": "./hooks",
+            "@queries": "./queries",
           },
         },
       ],

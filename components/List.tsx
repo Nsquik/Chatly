@@ -4,10 +4,11 @@ import { Divider, List as KittenList } from "@ui-kitten/components";
 import React from "react";
 
 export interface Props {
-  data: IUserRoom[];
+  data: IUserRoom[] | undefined;
 }
 
 const List: React.FC<Props> = ({ data }) => {
+  console.log(data);
   return (
     <KittenList
       data={data}
