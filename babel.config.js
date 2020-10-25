@@ -26,6 +26,7 @@ module.exports = function (api) {
             "@nav": "./navigation",
             "@type": "./types",
             "@assets": "./assets",
+            "@screens": "./screens",
           },
         },
       ],

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 export interface Props {}
 
-const ChatRoom: React.FC<Props> = ({}) => {
+const ListRooms: React.FC<Props> = ({}) => {
   return (
     <View style={styles.container}>
       <Text>LIST ROOMS MOCK</Text>
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatRoom;
+export default ListRooms;

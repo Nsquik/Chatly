@@ -14,7 +14,8 @@
       "@res/*": ["./resources/*"],
       "@nav/*": ["./navigation/*"],
       "@type/*": ["./types/*"],
-      "@assets/*": ["./assets/*"]
+      "@assets/*": ["./assets/*"],
+      "@screens/*": ["./screens/*"]
     }
   }
 }

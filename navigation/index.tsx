@@ -1,37 +1,36 @@
+import HomeNavigator from "@nav/HomeNavigator";
 import {
   NavigationContainer,
   DefaultTheme,
   DarkTheme,
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { RootStack } from "@type/navigation";
+import { RootStackParams } from "@type/navigation";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
 
-// If you are not familiar with React Navigation, we recommend going through the
-// "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
-// export default function Navigation({
-//   colorScheme,
-// }: {
-//   colorScheme: ColorSchemeName;
-// }) {
-//   return (
-//     <NavigationContainer
-//       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-//     >
-//       <RootNavigator />
-//     </NavigationContainer>
-//   );
-// }
+export default function Navigation({
+  colorScheme,
+}: {
+  colorScheme: ColorSchemeName;
+}) {
+  return (
+    <NavigationContainer
+      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+    >
+      <RootNavigator />
+    </NavigationContainer>
+  );
+}
 
 // A root stack navigator is often used for displaying modals on top of all other content
 // Read more here: https://reactnavigation.org/docs/modal
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParams>();
 
-// function RootNavigator() {
-//   return (
-//     <Stack.Navigator screenOptions={{ headerShown: false }}>
-
-//     </Stack.Navigator>
-//   );
-// }
+function RootNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Root" component={HomeNavigator} />
+    </Stack.Navigator>
+  );
+}
