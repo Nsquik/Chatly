@@ -27,6 +27,7 @@ module.exports = function (api) {
             "@type": "./types",
             "@assets": "./assets",
             "@screens": "./screens",
+            "@components": "./components",
           },
         },
       ],
