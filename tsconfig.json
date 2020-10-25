@@ -16,7 +16,8 @@
       "@type/*": ["./types/*"],
       "@assets/*": ["./assets/*"],
       "@screens/*": ["./screens/*"],
-      "@components/*": ["./components/*"]
+      "@components/*": ["./components/*"],
+      "@hooks/*": ["./hooks/*"]
     }
   }
 }

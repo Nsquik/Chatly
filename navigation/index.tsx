@@ -29,7 +29,11 @@ const Stack = createStackNavigator<RootStackParams>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Stack.Screen name="Root" component={HomeNavigator} />
     </Stack.Navigator>
   );

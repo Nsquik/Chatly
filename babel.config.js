@@ -28,6 +28,7 @@ module.exports = function (api) {
             "@assets": "./assets",
             "@screens": "./screens",
             "@components": "./components",
+            "@hooks": "./hooks",
           },
         },
       ],
