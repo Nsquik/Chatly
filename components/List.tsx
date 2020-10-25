@@ -8,7 +8,6 @@ export interface Props {
 }
 
 const List: React.FC<Props> = ({ data }) => {
-  console.log(data);
   return (
     <KittenList
       data={data}

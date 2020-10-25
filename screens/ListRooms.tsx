@@ -10,7 +10,7 @@ export interface Props {}
 const ListRooms: React.FC<Props> = ({}) => {
   const { data } = useListRooms();
   return (
-    <Layout level="3">
+    <Layout level="1">
       <List data={data?.usersRooms.rooms} />
       <StatusBar style="auto" />
     </Layout>
