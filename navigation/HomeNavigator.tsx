@@ -8,7 +8,7 @@ const HomeStack = createStackNavigator<HomeStackParams>();
 
 function HomeNavigator() {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator initialRouteName="ListRooms">
       <HomeStack.Screen name="ListRooms" component={ListRooms} />
       <HomeStack.Screen name="ChatRoom" component={ChatRoom} />
     </HomeStack.Navigator>
