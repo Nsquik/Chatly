@@ -11,7 +11,10 @@
     "strict": true,
     "baseUrl": "./",
     "paths": {
-      "@res/*": ["./resources/*"]
+      "@res/*": ["./resources/*"],
+      "@nav/*": ["./navigation/*"],
+      "@type/*": ["./types/*"],
+      "@assets/*": ["./assets/*"]
     }
   }
 }
