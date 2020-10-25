@@ -1,11 +1,13 @@
 import { StyledLayout as Layout } from "@components/Layout";
+import List from "@components/List";
+import { IUserRoom } from "@type/models";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Text } from "react-native";
 
 export interface Props {}
 
-const mockedRooms = [
+const mockedRooms: IUserRoom[] = [
   {
     id: "9652cf09-e839-4ca9-9bed-8138fbd3c5b9",
     name: "The one with the Penny's recruitment task",
@@ -23,9 +25,7 @@ const mockedRooms = [
 const ListRooms: React.FC<Props> = ({}) => {
   return (
     <Layout level="1">
-      <Text>LIST ROOMS MOCK</Text>
-      <Text>LIST ROOMS MOCK</Text>
-
+      <List data={mockedRooms} />
       <StatusBar style="auto" />
     </Layout>
   );
