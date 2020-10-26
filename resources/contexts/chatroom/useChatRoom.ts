@@ -1,12 +1,19 @@
-import { useLazyQuery, useSubscription } from "@apollo/client";
-import { GET_ROOM_MESSAGES, SUBSCRIBE_MESSAGE_ADDED } from "@queries/chatRoom";
+import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
+import {
+  GET_ROOM_MESSAGES,
+  SEND_MESSAGE,
+  SUBSCRIBE_MESSAGE_ADDED,
+  SUBSCRIBE_ROOM_TYPING,
+} from "@queries/chatRoom";
 import {
   STATE,
   ChatroomActionTypes,
   ACTION_TYPES,
 } from "@res/contexts/chatroom/types";
+import { IMessage } from "@type/models";
 import { ChatRoomParams } from "@type/navigation";
 import { useRef, useReducer, useCallback, useState } from "react";
+import { IMessage as IMessageGifted } from "react-native-gifted-chat";
 import Toast from "react-native-toast-message";
 
 const INIT_STATE: STATE = {
@@ -24,7 +31,7 @@ export const internalReducer = (state: STATE, action: ChatroomActionTypes) => {
     case ACTION_TYPES.TOGGLE_SUBSCRIBED:
       return { ...state, subscribed: !state.subscribed };
     case ACTION_TYPES.UPDATE_MESSAGES:
-      return { ...state, messages: [...state.messages, ...payload.value] };
+      return { ...state, messages: [...payload.value, ...state.messages] };
     case ACTION_TYPES.CLEAR_ALL:
       return INIT_STATE;
     default:
@@ -44,11 +51,19 @@ export const useChatRoom = (
 
   const { currentRoom } = state;
 
+  const subOpts = {
+    kip: !currentRoom,
+    variables: { id: currentRoom?.roomId },
+    shouldResubscribe: true,
+  };
+
+  const [sendMessage] = useMutation(SEND_MESSAGE, {});
+
   const [loadMessages, loadMessagesResult] = useLazyQuery(GET_ROOM_MESSAGES, {
     variables: { id: currentRoom?.roomId },
     notifyOnNetworkStatusChange: true,
     fetchPolicy: "cache-and-network",
-    onCompleted: (data) => {
+    onCompleted: (data: { room: { messages: IMessage[] } }) => {
       const {
         room: { messages },
       } = data;
@@ -62,9 +77,7 @@ export const useChatRoom = (
   const { updateQuery } = loadMessagesResult;
 
   const subscription = useSubscription(SUBSCRIBE_MESSAGE_ADDED, {
-    skip: !currentRoom,
-    variables: { id: currentRoom?.roomId },
-    shouldResubscribe: true,
+    ...subOpts,
     onSubscriptionData: ({
       subscriptionData: {
         data: { messageAdded },
@@ -80,11 +93,22 @@ export const useChatRoom = (
           });
         dispatch({
           type: ACTION_TYPES.UPDATE_MESSAGES,
-          payload: { value: messageAdded },
+          payload: { value: [messageAdded] as IMessage[] },
         });
 
         return { ...prev, messageAdded };
       }),
+  });
+
+  const subscriptionTyping = useSubscription(SUBSCRIBE_ROOM_TYPING, {
+    ...subOpts,
+    onSubscriptionData: ({
+      subscriptionData: {
+        data: { typingUser },
+      },
+    }) => {
+      console.log(typingUser);
+    },
   });
 
   const checkAndLoad = useCallback(
@@ -109,6 +133,20 @@ export const useChatRoom = (
     [loadMessages, dispatch, currentRoom]
   );
 
+  const onSend = useCallback(
+    (messages: IMessageGifted[]) => {
+      messages.forEach(({ text }) => {
+        sendMessage({
+          variables: {
+            id: currentRoom?.roomId,
+            body: text,
+          },
+        });
+      });
+    },
+    [sendMessage, currentRoom]
+  );
+
   return {
     state,
     dispatch,
@@ -116,6 +154,8 @@ export const useChatRoom = (
     loadMessagesResult,
     checkAndLoad,
     subscription,
+    subscriptionTyping,
     setChatOpen,
+    onSend,
   };
 };

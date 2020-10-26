@@ -1,6 +1,7 @@
 import { LazyQueryResult, QueryLazyOptions } from "@apollo/client";
-import { IMessage, IUserRoom } from "@type/models";
+import { IMessage } from "@type/models";
 import { ChatRoomParams } from "@type/navigation";
+import { IMessage as IMessageGifted } from "react-native-gifted-chat";
 
 export interface STATE {
   messages: IMessage[];
@@ -17,7 +18,7 @@ export enum ACTION_TYPES {
 
 export type UPDATE_MESSAGES = {
   type: ACTION_TYPES.UPDATE_MESSAGES;
-  payload: { value: IMessage };
+  payload: { value: IMessage[] };
 };
 
 export type CHANGE_ROOM = {
@@ -65,4 +66,5 @@ export interface Hook {
   >;
   subscription: any;
   setChatOpen: any;
+  onSend: (messages: IMessageGifted[]) => void;
 }
