@@ -1,25 +1,21 @@
+import { StyledLayout as Layout } from "@components/Layout";
+import List from "@components/List";
+import UserBottomTab from "@components/UserBottomTab";
+import { useListRooms } from "@hooks/useListRooms";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
 
 export interface Props {}
 
 const ListRooms: React.FC<Props> = ({}) => {
+  const { data } = useListRooms();
   return (
-    <View style={styles.container}>
-      <Text>LIST ROOMS MOCK</Text>
+    <Layout level="1">
+      <List data={data?.usersRooms.rooms} />
+      <UserBottomTab />
       <StatusBar style="auto" />
-    </View>
+    </Layout>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 export default ListRooms;

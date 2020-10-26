@@ -15,7 +15,10 @@
       "@nav/*": ["./navigation/*"],
       "@type/*": ["./types/*"],
       "@assets/*": ["./assets/*"],
-      "@screens/*": ["./screens/*"]
+      "@screens/*": ["./screens/*"],
+      "@components/*": ["./components/*"],
+      "@hooks/*": ["./hooks/*"],
+      "@queries/*": ["./queries/*"]
     }
   }
 }
