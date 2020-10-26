@@ -106,9 +106,7 @@ export const useChatRoom = (
       subscriptionData: {
         data: { typingUser },
       },
-    }) => {
-      console.log(typingUser);
-    },
+    }) => {},
   });
 
   const checkAndLoad = useCallback(
