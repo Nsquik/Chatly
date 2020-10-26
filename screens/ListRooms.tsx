@@ -7,7 +7,7 @@ import React from "react";
 
 export interface Props {}
 
-const ListRooms: React.FC<Props> = ({}) => {
+const ListRooms: React.FC<Props> = () => {
   const { data } = useListRooms();
   return (
     <Layout level="1">

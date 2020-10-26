@@ -11,6 +11,7 @@ import Toast from "react-native-toast-message";
 
 import { client } from "./apollo";
 import ChatRoomProvider from "./contexts/chatroom";
+import StorageProvider from "./contexts/storage";
 
 export interface Props {}
 
@@ -19,13 +20,15 @@ const GlobalProviders: React.FC<Props> = ({ children }) => {
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
-      <ApolloProvider client={client}>
-        <ChatRoomProvider>
-          <KittenProvider {...eva} theme={eva[colorScheme]}>
-            {children}
-          </KittenProvider>
-        </ChatRoomProvider>
-      </ApolloProvider>
+      <StorageProvider>
+        <ApolloProvider client={client}>
+          <ChatRoomProvider>
+            <KittenProvider {...eva} theme={eva[colorScheme]}>
+              {children}
+            </KittenProvider>
+          </ChatRoomProvider>
+        </ApolloProvider>
+      </StorageProvider>
       <Toast ref={(ref: any) => Toast.setRef(ref)} />
     </>
   );

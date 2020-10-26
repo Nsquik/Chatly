@@ -1,7 +1,7 @@
 import { useChatRoom } from "@res/contexts/chatroom/useChatRoom";
 import React, { createContext } from "react";
 
-import { Hook, STATE } from "./types";
+import { Hook } from "./types";
 
 export const ChatRoomContext = createContext<Hook | undefined>(undefined);
 

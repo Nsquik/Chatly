@@ -1,8 +1,8 @@
-import { ChatRoomContext } from "@res/contexts/chatroom";
+import { StorageContext } from "@res/contexts/storage";
 import { useContext } from "react";
 
-export const useChatroomState = () => {
-  const context = useContext(ChatRoomContext);
+export const useStorageState = () => {
+  const context = useContext(StorageContext);
 
   if (context === undefined) {
     throw new Error("useChatroomState must be used within a ChatRoomProvider");

@@ -1,3 +1,5 @@
+import { ApolloClient, useApolloClient } from "@apollo/client";
+import { useStorageState } from "@hooks/useStorageState";
 import { useUserInfo } from "@hooks/useUserInfo";
 import { Button, Text, useTheme } from "@ui-kitten/components";
 import React from "react";
@@ -25,8 +27,10 @@ const StyledView = styled(View)`
 `;
 
 const UserBottomTab = () => {
+  const client = useApolloClient();
   const theme = useTheme();
   const { getFullName } = useUserInfo();
+  const { removeToken } = useStorageState();
   return (
     <StyledView bgColor={theme["background-basic-color-2"]}>
       <Text>Logged in as: {getFullName() || ""} </Text>
@@ -34,6 +38,11 @@ const UserBottomTab = () => {
         appearance="ghost"
         status="danger"
         style={{ width: "100%", paddingTop: 5 }}
+        onPress={async () => {
+          await removeToken();
+          client.resetStore();
+          client.clearStore();
+        }}
       >
         Log out
       </Button>
