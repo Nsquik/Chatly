@@ -1,5 +1,4 @@
 import { ChatRoomContext } from "@res/contexts/chatroom";
-import { STATE } from "@res/contexts/chatroom/types";
 import { useContext } from "react";
 
 export const useChatroomState = () => {

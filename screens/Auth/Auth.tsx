@@ -3,8 +3,6 @@ import FormHandler from "@components/FormHandler";
 import { StyledLayout as Layout } from "@components/Layout";
 import { useStorageState } from "@hooks/useStorageState";
 import { LOGIN } from "@queries/auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
 import { Text } from "@ui-kitten/components";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
@@ -18,7 +16,7 @@ import {
 
 export interface Props {}
 
-const Auth: React.FC<Props> = ({}) => {
+const Auth: React.FC<Props> = () => {
   const { setTokenCb } = useStorageState();
 
   const [logIn, { loading }] = useMutation(LOGIN, {

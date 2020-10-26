@@ -1,5 +1,5 @@
 import FormInput from "@components/FormInput";
-import { Button, Text } from "@ui-kitten/components";
+import { Button } from "@ui-kitten/components";
 import { FormikProps } from "formik";
 import React from "react";
 import * as yup from "yup";

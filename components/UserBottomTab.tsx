@@ -1,7 +1,5 @@
 import { useStorageState } from "@hooks/useStorageState";
 import { useUserInfo } from "@hooks/useUserInfo";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
 import { Button, Text, useTheme } from "@ui-kitten/components";
 import React from "react";
 import { View } from "react-native";

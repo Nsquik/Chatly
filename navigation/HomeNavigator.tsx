@@ -5,14 +5,13 @@ import Auth from "@screens/Auth/Auth";
 import ChatRoom from "@screens/ChatRoom";
 import ListRooms from "@screens/ListRooms";
 import { HomeStackParams } from "@type/navigation";
-import React, { useState } from "react";
+import React from "react";
 import { View } from "react-native";
 
 const HomeStack = createStackNavigator<HomeStackParams>();
 
 function HomeNavigator() {
   const { token } = useStorageState();
-  console.log(API_KEY);
 
   return (
     <HomeStack.Navigator
