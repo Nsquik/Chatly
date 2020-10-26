@@ -29,10 +29,19 @@ When we join one of the room, and then leave we will still get <b>notification</
 about upcoming messages. It happens like that cuz even when we leave the room,
 we're still subscribed to the last chat.
 
-# <a href="https://ibb.co/0mGkXLZ"><img src="https://i.ibb.co/wBzTLqC/mainscreen-Not.png" alt="mainscreen-Not" border="0"></a>
+<img src="https://i.ibb.co/6HJ9bQG/mainscreen.png" alt="mainscreen" border="0" width="425"> <img src="https://i.ibb.co/wBzTLqC/mainscreen-Not.png" alt="mainscreen-Not" border="0" width="425">
 
-## Chat Room Screen
-It simply uses Gifted Chat 
+
+## Chat Room Screen 👀
+It simply uses Gifted Chat ( https://github.com/FaridSafi/react-native-gifted-chat ) for UI.
+Consumes the <b> messages + typing subscriptions. </b> So it is visible when someone is typing in the chat.
+New messages are shown instantly.
+
+ <img src="https://i.ibb.co/BnvcH2h/1.png" alt="1" border="0" width="425"> <img src="https://i.ibb.co/YNbVw37/2.png" alt="2" border="0" width="425"> 
+
+
+
+
 
 
 
