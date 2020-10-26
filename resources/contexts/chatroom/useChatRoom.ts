@@ -17,6 +17,8 @@ import { useRef, useReducer, useCallback, useState } from "react";
 import { IMessage as IMessageGifted } from "react-native-gifted-chat";
 import Toast from "react-native-toast-message";
 
+import { debounce } from "../../../utils/debounce";
+
 const INIT_STATE: STATE = {
   messages: [],
   currentRoom: null,
@@ -109,9 +111,7 @@ export const useChatRoom = (
       subscriptionData: {
         data: { typingUser },
       },
-    }) => {
-      console.log(typingUser);
-    },
+    }) => {},
   });
 
   const checkAndLoad = useCallback(
@@ -150,16 +150,20 @@ export const useChatRoom = (
     [sendMessage, currentRoom]
   );
 
+  const turnTypingOff = debounce(function () {
+    setTimeout(() => {
+      setIsTyping(false);
+    }, 3000);
+  }, 500);
+
   const onSetTyping = useCallback(() => {
     setTyping({
       variables: {
         id: currentRoom?.roomId,
       },
     });
-    setIsTyping((prev) => !prev);
-    setTimeout(() => {
-      setIsTyping(false);
-    }, 3000);
+    setIsTyping(true);
+    turnTypingOff();
   }, [setTyping, currentRoom]);
 
   return {
