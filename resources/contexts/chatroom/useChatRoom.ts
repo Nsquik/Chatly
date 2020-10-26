@@ -2,6 +2,7 @@ import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import {
   GET_ROOM_MESSAGES,
   SEND_MESSAGE,
+  SET_TYPING,
   SUBSCRIBE_MESSAGE_ADDED,
   SUBSCRIBE_ROOM_TYPING,
 } from "@queries/chatRoom";
@@ -45,6 +46,7 @@ export const useChatRoom = (
 ) => {
   const userInitialState = useRef<STATE>(initialState);
   const [isChatOpen, setChatOpen] = useState<boolean>(false);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
   const [state, dispatch] = useReducer<
     (state: STATE, action: ChatroomActionTypes) => STATE
   >(reducer, userInitialState.current);
@@ -58,6 +60,7 @@ export const useChatRoom = (
   };
 
   const [sendMessage] = useMutation(SEND_MESSAGE, {});
+  const [setTyping] = useMutation(SET_TYPING, {});
 
   const [loadMessages, loadMessagesResult] = useLazyQuery(GET_ROOM_MESSAGES, {
     variables: { id: currentRoom?.roomId },
@@ -106,7 +109,9 @@ export const useChatRoom = (
       subscriptionData: {
         data: { typingUser },
       },
-    }) => {},
+    }) => {
+      console.log(typingUser);
+    },
   });
 
   const checkAndLoad = useCallback(
@@ -145,6 +150,18 @@ export const useChatRoom = (
     [sendMessage, currentRoom]
   );
 
+  const onSetTyping = useCallback(() => {
+    setTyping({
+      variables: {
+        id: currentRoom?.roomId,
+      },
+    });
+    setIsTyping((prev) => !prev);
+    setTimeout(() => {
+      setIsTyping(false);
+    }, 3000);
+  }, [setTyping, currentRoom]);
+
   return {
     state,
     dispatch,
@@ -155,5 +172,7 @@ export const useChatRoom = (
     subscriptionTyping,
     setChatOpen,
     onSend,
+    onSetTyping,
+    isTyping,
   };
 };

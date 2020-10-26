@@ -42,6 +42,16 @@ export const SUBSCRIBE_ROOM_TYPING = gql`
   }
 `;
 
+export const SET_TYPING = gql`
+  mutation Typing($id: String!) {
+    typingUser(roomId: $id) {
+      _id: id
+      firstName
+      lastName
+    }
+  }
+`;
+
 export const SEND_MESSAGE = gql`
   mutation($id: String!, $body: String!) {
     sendMessage(body: $body, roomId: $id) {
