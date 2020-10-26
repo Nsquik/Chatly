@@ -5,6 +5,7 @@ import {
   ChatroomActionTypes,
   ACTION_TYPES,
 } from "@res/contexts/chatroom/types";
+import { ChatRoomParams } from "@type/navigation";
 import { useRef, useReducer, useCallback, useState } from "react";
 
 const INIT_STATE: STATE = {
@@ -43,10 +44,27 @@ export const useChatRoom = (
   const { currentRoom } = state;
 
   const [loadMessages, loadMessagesResult] = useLazyQuery(GET_ROOM_MESSAGES, {
-    variables: { id: currentRoom?.id },
+    variables: { id: currentRoom?.roomId },
     notifyOnNetworkStatusChange: true,
     onCompleted: (data) => {},
   });
 
-  return { state, dispatch, loadMessages, loadMessagesResult };
+  const checkAndLoad = useCallback(
+    (passedRoom: ChatRoomParams) => {
+      const isNewRoomPassed = !(
+        JSON.stringify(currentRoom) === JSON.stringify(passedRoom)
+      );
+      if (isNewRoomPassed) {
+        dispatch({
+          type: ACTION_TYPES.CHANGE_ROOM,
+          payload: { value: passedRoom },
+        });
+        loadMessages();
+      }
+      return isNewRoomPassed;
+    },
+    [loadMessages, dispatch, currentRoom]
+  );
+
+  return { state, dispatch, loadMessages, loadMessagesResult, checkAndLoad };
 };

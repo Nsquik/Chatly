@@ -1,8 +1,10 @@
+import { LazyQueryResult, QueryLazyOptions } from "@apollo/client";
 import { IMessage, IUserRoom } from "@type/models";
+import { ChatRoomParams } from "@type/navigation";
 
 export interface STATE {
   messages: IMessage[];
-  currentRoom: IUserRoom | null;
+  currentRoom: ChatRoomParams | null;
   subscribed: boolean;
 }
 
@@ -38,3 +40,26 @@ export type ChatroomActionTypes =
   | CHANGE_ROOM
   | CLEAR_ALL
   | TOGGLE_SUBSCRIBED;
+
+type loadMessagesVariables = { id: string | undefined };
+
+type loadMessagesResponseData = {
+  room: {
+    messages: IMessage[];
+  };
+};
+export interface Hook {
+  state: STATE;
+  dispatch: React.Dispatch<ChatroomActionTypes>;
+  loadMessages: (
+    options?:
+      | QueryLazyOptions<{
+          id: string | undefined;
+        }>
+      | undefined
+  ) => void;
+  loadMessagesResult: LazyQueryResult<
+    loadMessagesResponseData,
+    loadMessagesVariables
+  >;
+}
