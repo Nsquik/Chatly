@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useStorageState } from "@hooks/useStorageState";
 import { createStackNavigator } from "@react-navigation/stack";
 import Auth from "@screens/Auth/Auth";
 import ChatRoom from "@screens/ChatRoom";
@@ -10,9 +10,8 @@ import { View } from "react-native";
 const HomeStack = createStackNavigator<HomeStackParams>();
 
 function HomeNavigator() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { token } = useStorageState();
 
-  AsyncStorage.getItem("token").then((data) => data && setIsLoggedIn(true));
   return (
     <HomeStack.Navigator
       initialRouteName="ListRooms"
@@ -43,7 +42,7 @@ function HomeNavigator() {
         ),
       }}
     >
-      {isLoggedIn ? (
+      {token ? (
         <>
           <HomeStack.Screen
             name="ListRooms"

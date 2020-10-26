@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client";
 import FormHandler from "@components/FormHandler";
 import { StyledLayout as Layout } from "@components/Layout";
+import { useStorageState } from "@hooks/useStorageState";
 import { LOGIN } from "@queries/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -18,12 +19,12 @@ import {
 export interface Props {}
 
 const Auth: React.FC<Props> = ({}) => {
-  const navigation = useNavigation();
+  const { setTokenCb } = useStorageState();
+
   const [logIn, { loading }] = useMutation(LOGIN, {
     onCompleted: async ({ loginUser: { token } }) => {
-      await AsyncStorage.setItem("token", token);
+      await setTokenCb(token);
       Toast.show({ type: "success", text1: "Logged in!", position: "bottom" });
-      navigation.navigate("Root");
     },
     onError: (error) => {
       Toast.show({ type: "error", text1: error.message, position: "bottom" });

@@ -8,17 +8,26 @@ export const useStorage = () => {
     AsyncStorage.getItem("token").then((token) => {
       token && setToken(token);
     });
-  }, []);
+  }, [setToken]);
 
   useEffect(() => {
     fetchToken();
   }, []);
 
+  const setTokenCb = useCallback(
+    (token: string) => {
+      AsyncStorage.setItem("token", token).then(() => {
+        setToken(token);
+      });
+    },
+    [setToken]
+  );
+
   const removeToken = useCallback(() => {
     AsyncStorage.removeItem("token").then(() => {
       setToken(null);
     });
-  }, []);
+  }, [setToken]);
 
-  return { token, fetchToken, removeToken };
+  return { token, fetchToken, removeToken, setTokenCb };
 };
