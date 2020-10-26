@@ -63,4 +63,6 @@ export interface Hook {
     loadMessagesResponseData,
     loadMessagesVariables
   >;
+  subscription: any;
+  setChatOpen: any;
 }

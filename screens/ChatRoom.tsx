@@ -14,42 +14,16 @@ export interface Props {
 const ChatRoom: React.FC<Props> = ({ route }) => {
   const { params: roomObj } = route;
   const state = useChatroomState();
-  const { loadMessages } = state;
-  const {
-    called,
-    refetch,
-    loading,
-    data,
-    error,
-    subscribeToMore,
-  } = state.loadMessagesResult;
-  // console.log(`Loading: ${state.loadMessagesResult.loading}`);
-
-  // These are hax to make subscribeToMore work with useLazyQuery. There's some bug in Apollo
-  // https://github.com/apollographql/react-apollo/issues/3860
-  useEffect(() => {
-    if (!called) {
-      state.checkAndLoad(roomObj);
-    }
-  }, [loadMessages, called]);
+  const { loadMessages, checkAndLoad, setChatOpen } = state;
+  const { called, refetch, loading, data, error } = state.loadMessagesResult;
 
   useEffect(() => {
-    if (called) {
-      refetch && refetch();
-    }
-  }, [refetch, called]);
-
-  useEffect(() => {
-    if (subscribeToMore) {
-      console.log(subscribeToMore);
-      const messagesUnsubscribe = subscribeToMore({
-        document: SUBSCRIBE_MESSAGE_ADDED,
-      });
-      return () => {
-        messagesUnsubscribe();
-      };
-    }
-  }, [subscribeToMore]);
+    state.checkAndLoad(roomObj);
+    setChatOpen(true);
+    return () => {
+      setChatOpen(false);
+    };
+  }, [loadMessages, called, checkAndLoad]);
 
   return (
     <View style={styles.container}>

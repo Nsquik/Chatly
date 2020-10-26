@@ -1,4 +1,4 @@
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useSubscription } from "@apollo/client";
 import { GET_ROOM_MESSAGES, SUBSCRIBE_MESSAGE_ADDED } from "@queries/chatRoom";
 import {
   STATE,
@@ -7,6 +7,7 @@ import {
 } from "@res/contexts/chatroom/types";
 import { ChatRoomParams } from "@type/navigation";
 import { useRef, useReducer, useCallback, useState } from "react";
+import Toast from "react-native-toast-message";
 
 const INIT_STATE: STATE = {
   messages: [],
@@ -36,7 +37,7 @@ export const useChatRoom = (
   reducer = internalReducer
 ) => {
   const userInitialState = useRef<STATE>(initialState);
-
+  const [isChatOpen, setChatOpen] = useState<boolean>(false);
   const [state, dispatch] = useReducer<
     (state: STATE, action: ChatroomActionTypes) => STATE
   >(reducer, userInitialState.current);
@@ -46,8 +47,43 @@ export const useChatRoom = (
   const [loadMessages, loadMessagesResult] = useLazyQuery(GET_ROOM_MESSAGES, {
     variables: { id: currentRoom?.roomId },
     notifyOnNetworkStatusChange: true,
-    // fetchPolicy: "network-only",
-    onCompleted: (data) => {},
+    fetchPolicy: "cache-and-network",
+    onCompleted: (data) => {
+      const {
+        room: { messages },
+      } = data;
+      dispatch({
+        type: ACTION_TYPES.UPDATE_MESSAGES,
+        payload: { value: messages },
+      });
+    },
+  });
+
+  const { updateQuery } = loadMessagesResult;
+
+  const subscription = useSubscription(SUBSCRIBE_MESSAGE_ADDED, {
+    skip: !currentRoom,
+    variables: { id: currentRoom?.roomId },
+    shouldResubscribe: true,
+    onSubscriptionData: ({
+      subscriptionData: {
+        data: { messageAdded },
+      },
+    }) =>
+      updateQuery?.((prev, _options) => {
+        Toast.show({
+          type: "info",
+          position: "bottom",
+          text1: "New message",
+          text2: "You've got new message in the last opened chat room",
+        });
+        dispatch({
+          type: ACTION_TYPES.UPDATE_MESSAGES,
+          payload: { value: messageAdded },
+        });
+
+        return { ...prev, messageAdded };
+      }),
   });
 
   const checkAndLoad = useCallback(
@@ -57,21 +93,28 @@ export const useChatRoom = (
       );
       if (isNewRoomPassed) {
         dispatch({
+          type: ACTION_TYPES.CLEAR_ALL,
+          payload: null,
+        });
+        dispatch({
           type: ACTION_TYPES.CHANGE_ROOM,
           payload: { value: passedRoom },
         });
         loadMessages();
       }
-      //   console.log(loadMessagesResult.subscribeToMore);
-      //   if (loadMessagesResult.subscribeToMore) {
-      //     loadMessagesResult.subscribeToMore({
-      //       document: SUBSCRIBE_MESSAGE_ADDED,
-      //     });
-      //   }
+
       return isNewRoomPassed;
     },
     [loadMessages, dispatch, currentRoom]
   );
 
-  return { state, dispatch, loadMessages, loadMessagesResult, checkAndLoad };
+  return {
+    state,
+    dispatch,
+    loadMessages,
+    loadMessagesResult,
+    checkAndLoad,
+    subscription,
+    setChatOpen,
+  };
 };

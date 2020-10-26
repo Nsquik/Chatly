@@ -6,6 +6,7 @@ import {
 } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import React from "react";
+import Toast from "react-native-toast-message";
 
 import { client } from "./apollo";
 import ChatRoomProvider from "./contexts/chatroom";
@@ -23,6 +24,7 @@ const GlobalProviders: React.FC<Props> = ({ children }) => {
           </KittenProvider>
         </ChatRoomProvider>
       </ApolloProvider>
+      <Toast ref={(ref: any) => Toast.setRef(ref)} />
     </>
   );
 };
