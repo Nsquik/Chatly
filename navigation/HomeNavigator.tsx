@@ -54,7 +54,10 @@ function HomeNavigator() {
             name="ChatRoom"
             component={ChatRoom}
             // @ts-ignore
-            options={({ route }) => ({ title: route?.params?.roomName })}
+            options={({ route }) => ({
+              title: route?.params?.roomName,
+              headerTitleStyle: { fontSize: 14 },
+            })}
           />
         </>
       ) : (
