@@ -1,5 +1,5 @@
 import { useLazyQuery } from "@apollo/client";
-import { GET_ROOM_MESSAGES } from "@queries/chatRoom";
+import { GET_ROOM_MESSAGES, SUBSCRIBE_MESSAGE_ADDED } from "@queries/chatRoom";
 import {
   STATE,
   ChatroomActionTypes,
@@ -46,6 +46,7 @@ export const useChatRoom = (
   const [loadMessages, loadMessagesResult] = useLazyQuery(GET_ROOM_MESSAGES, {
     variables: { id: currentRoom?.roomId },
     notifyOnNetworkStatusChange: true,
+    // fetchPolicy: "network-only",
     onCompleted: (data) => {},
   });
 
@@ -61,6 +62,12 @@ export const useChatRoom = (
         });
         loadMessages();
       }
+      //   console.log(loadMessagesResult.subscribeToMore);
+      //   if (loadMessagesResult.subscribeToMore) {
+      //     loadMessagesResult.subscribeToMore({
+      //       document: SUBSCRIBE_MESSAGE_ADDED,
+      //     });
+      //   }
       return isNewRoomPassed;
     },
     [loadMessages, dispatch, currentRoom]

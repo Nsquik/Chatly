@@ -1,4 +1,5 @@
 import { useChatroomState } from "@hooks/useChatroomState";
+import { SUBSCRIBE_MESSAGE_ADDED } from "@queries/chatRoom";
 import { RouteProp } from "@react-navigation/native";
 import { ACTION_TYPES } from "@res/contexts/chatroom/types";
 import { HomeStackParams } from "@type/navigation";
@@ -13,14 +14,40 @@ export interface Props {
 const ChatRoom: React.FC<Props> = ({ route }) => {
   const { params: roomObj } = route;
   const state = useChatroomState();
+  const { loadMessages } = state;
+  const {
+    called,
+    refetch,
+    loading,
+    data,
+    error,
+    subscribeToMore,
+  } = state.loadMessagesResult;
+  // console.log(`Loading: ${state.loadMessagesResult.loading}`);
   useEffect(() => {
-    state.dispatch({
-      type: ACTION_TYPES.CHANGE_ROOM,
-      payload: { value: roomObj },
-    });
-    state.loadMessages();
-    return () => {};
-  }, []);
+    if (!called) {
+      state.checkAndLoad(roomObj);
+    }
+  }, [loadMessages, called]);
+
+  useEffect(() => {
+    if (called) {
+      refetch && refetch();
+    }
+  }, [refetch, called]);
+
+  useEffect(() => {
+    const messagesUnsubscribe =
+      subscribeToMore &&
+      subscribeToMore({
+        document: SUBSCRIBE_MESSAGE_ADDED,
+      });
+
+    return () => {
+      messagesUnsubscribe && messagesUnsubscribe();
+    };
+  }, [state]);
+
   // console.log(state.loadMessagesResult.data?.room.messages);
   return (
     <View style={styles.container}>

@@ -58,6 +58,7 @@ export interface Hook {
         }>
       | undefined
   ) => void;
+  checkAndLoad: (passedRoom: ChatRoomParams) => boolean;
   loadMessagesResult: LazyQueryResult<
     loadMessagesResponseData,
     loadMessagesVariables
