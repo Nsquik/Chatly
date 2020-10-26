@@ -18,7 +18,7 @@ const StyledView = styled(View)`
   padding-top: 10px;
   background-color: ${(props: { bgColor: string }) => `${props.bgColor}EB`};
   shadow-color: #000;
-  shadow-offset: 0 12px;
+  shadow-offset: 0 250px;
   shadow-opacity: 0.8;
   shadow-radius: 16px;
   elevation: 24;
@@ -29,7 +29,7 @@ const UserBottomTab = () => {
   const { getFullName } = useUserInfo();
   return (
     <StyledView bgColor={theme["background-basic-color-2"]}>
-      <Text>Logged in as: {getFullName()} </Text>
+      <Text>Logged in as: {getFullName() || ""} </Text>
       <Button
         appearance="ghost"
         status="danger"
