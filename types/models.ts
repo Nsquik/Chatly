@@ -10,3 +10,10 @@ export interface IUser {
   lastName: string;
   role: string;
 }
+
+export interface IMessage {
+  id: string;
+  body: string;
+  insertedAt: Date;
+  user: Omit<IUser, "role" | "email">;
+}
