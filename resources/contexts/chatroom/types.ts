@@ -36,5 +36,5 @@ export type CLEAR_ALL = {
 export type ChatroomActionTypes =
   | UPDATE_MESSAGES
   | CHANGE_ROOM
-  | TOGGLE_SUBSCRIBED
-  | CLEAR_ALL;
+  | CLEAR_ALL
+  | TOGGLE_SUBSCRIBED;
