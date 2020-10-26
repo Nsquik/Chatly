@@ -67,4 +67,6 @@ export interface Hook {
   subscription: any;
   setChatOpen: any;
   onSend: (messages: IMessageGifted[]) => void;
+  onSetTyping: () => void;
+  isTyping: boolean;
 }

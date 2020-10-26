@@ -2,6 +2,7 @@ import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import {
   GET_ROOM_MESSAGES,
   SEND_MESSAGE,
+  SET_TYPING,
   SUBSCRIBE_MESSAGE_ADDED,
   SUBSCRIBE_ROOM_TYPING,
 } from "@queries/chatRoom";
@@ -15,6 +16,8 @@ import { ChatRoomParams } from "@type/navigation";
 import { useRef, useReducer, useCallback, useState } from "react";
 import { IMessage as IMessageGifted } from "react-native-gifted-chat";
 import Toast from "react-native-toast-message";
+
+import { debounce } from "../../../utils/debounce";
 
 const INIT_STATE: STATE = {
   messages: [],
@@ -45,6 +48,7 @@ export const useChatRoom = (
 ) => {
   const userInitialState = useRef<STATE>(initialState);
   const [isChatOpen, setChatOpen] = useState<boolean>(false);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
   const [state, dispatch] = useReducer<
     (state: STATE, action: ChatroomActionTypes) => STATE
   >(reducer, userInitialState.current);
@@ -58,6 +62,7 @@ export const useChatRoom = (
   };
 
   const [sendMessage] = useMutation(SEND_MESSAGE, {});
+  const [setTyping] = useMutation(SET_TYPING, {});
 
   const [loadMessages, loadMessagesResult] = useLazyQuery(GET_ROOM_MESSAGES, {
     variables: { id: currentRoom?.roomId },
@@ -145,6 +150,22 @@ export const useChatRoom = (
     [sendMessage, currentRoom]
   );
 
+  const turnTypingOff = debounce(function () {
+    setTimeout(() => {
+      setIsTyping(false);
+    }, 3000);
+  }, 500);
+
+  const onSetTyping = useCallback(() => {
+    setTyping({
+      variables: {
+        id: currentRoom?.roomId,
+      },
+    });
+    setIsTyping(true);
+    turnTypingOff();
+  }, [setTyping, currentRoom]);
+
   return {
     state,
     dispatch,
@@ -155,5 +176,7 @@ export const useChatRoom = (
     subscriptionTyping,
     setChatOpen,
     onSend,
+    onSetTyping,
+    isTyping,
   };
 };

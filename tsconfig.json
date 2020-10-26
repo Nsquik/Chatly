@@ -18,7 +18,8 @@
       "@screens/*": ["./screens/*"],
       "@components/*": ["./components/*"],
       "@hooks/*": ["./hooks/*"],
-      "@queries/*": ["./queries/*"]
+      "@queries/*": ["./queries/*"],
+      "@utils/*": ["./utils/*"]
     }
   }
 }
