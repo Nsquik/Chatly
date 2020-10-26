@@ -24,7 +24,7 @@ export const internalReducer = (state: STATE, action: ChatroomActionTypes) => {
     case ACTION_TYPES.TOGGLE_SUBSCRIBED:
       return { ...state, subscribed: !state.subscribed };
     case ACTION_TYPES.UPDATE_MESSAGES:
-      return { ...state, messages: [...state.messages, payload.value] };
+      return { ...state, messages: [...state.messages, ...payload.value] };
     case ACTION_TYPES.CLEAR_ALL:
       return INIT_STATE;
     default:
@@ -71,12 +71,13 @@ export const useChatRoom = (
       },
     }) =>
       updateQuery?.((prev, _options) => {
-        Toast.show({
-          type: "info",
-          position: "bottom",
-          text1: "New message",
-          text2: "You've got new message in the last opened chat room",
-        });
+        !isChatOpen &&
+          Toast.show({
+            type: "info",
+            position: "bottom",
+            text1: "New message",
+            text2: "You've got new message in the last opened chat room",
+          });
         dispatch({
           type: ACTION_TYPES.UPDATE_MESSAGES,
           payload: { value: messageAdded },

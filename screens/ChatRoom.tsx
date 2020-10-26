@@ -1,11 +1,11 @@
 import { useChatroomState } from "@hooks/useChatroomState";
-import { SUBSCRIBE_MESSAGE_ADDED } from "@queries/chatRoom";
+import { useUserInfo } from "@hooks/useUserInfo";
 import { RouteProp } from "@react-navigation/native";
-import { ACTION_TYPES } from "@res/contexts/chatroom/types";
 import { HomeStackParams } from "@type/navigation";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { GiftedChat } from "react-native-gifted-chat";
 
 export interface Props {
   route: RouteProp<HomeStackParams, "ChatRoom">;
@@ -13,21 +13,35 @@ export interface Props {
 
 const ChatRoom: React.FC<Props> = ({ route }) => {
   const { params: roomObj } = route;
-  const state = useChatroomState();
-  const { loadMessages, checkAndLoad, setChatOpen } = state;
-  const { called, refetch, loading, data, error } = state.loadMessagesResult;
+  const Chatroom = useChatroomState();
+  const { data, loading, getFullName } = useUserInfo();
+  const { loadMessages, checkAndLoad, setChatOpen, state } = Chatroom;
+  const { messages } = state;
+  const { called } = Chatroom.loadMessagesResult;
+  const myUserId = data && data.user._id;
 
   useEffect(() => {
-    state.checkAndLoad(roomObj);
+    Chatroom.checkAndLoad(roomObj);
     setChatOpen(true);
     return () => {
       setChatOpen(false);
     };
   }, [loadMessages, called, checkAndLoad]);
 
+  const newMessages = messages.map((item) => ({
+    ...item,
+    user: {
+      ...item.user,
+      name: `${item.user.firstName} ${item.user.lastName}`,
+    },
+  }));
+
   return (
     <View style={styles.container}>
-      <Text>CHAT ROOM MOCK</Text>
+      <GiftedChat
+        messages={newMessages}
+        user={{ _id: myUserId || "0", name: getFullName() }}
+      />
       <StatusBar style="auto" />
     </View>
   );
@@ -36,9 +50,8 @@ const ChatRoom: React.FC<Props> = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    width: "100%",
+    paddingTop: "25%",
   },
 });
 

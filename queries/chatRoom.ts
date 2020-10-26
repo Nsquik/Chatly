@@ -4,11 +4,11 @@ export const GET_ROOM_MESSAGES = gql`
   query GET_ROOM_MESSAGES($id: ID!) {
     room(id: $id) {
       messages {
-        id
-        body
-        insertedAt
+        _id: id
+        text: body
+        createdAt: insertedAt
         user {
-          id
+          _id: id
           firstName
           lastName
         }
