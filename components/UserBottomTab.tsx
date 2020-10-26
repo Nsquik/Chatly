@@ -1,4 +1,6 @@
 import { useUserInfo } from "@hooks/useUserInfo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import { Button, Text, useTheme } from "@ui-kitten/components";
 import React from "react";
 import { View } from "react-native";
@@ -27,6 +29,7 @@ const StyledView = styled(View)`
 const UserBottomTab = () => {
   const theme = useTheme();
   const { getFullName } = useUserInfo();
+  const navigation = useNavigation();
   return (
     <StyledView bgColor={theme["background-basic-color-2"]}>
       <Text>Logged in as: {getFullName() || ""} </Text>
@@ -34,6 +37,12 @@ const UserBottomTab = () => {
         appearance="ghost"
         status="danger"
         style={{ width: "100%", paddingTop: 5 }}
+        onPress={() => {
+          AsyncStorage.removeItem("token").then((lol) => {
+            console.log(lol);
+            navigation.navigate("Root");
+          });
+        }}
       >
         Log out
       </Button>
