@@ -39,8 +39,13 @@ New messages are shown instantly.
 
  <img src="https://i.ibb.co/BnvcH2h/1.png" alt="1" border="0" width="425"> <img src="https://i.ibb.co/YNbVw37/2.png" alt="2" border="0" width="425"> 
 
+## Login/Register Screen 🔑
 
+Used Formik + UI Kitten for inputs/buttons. 
+The token after loggin in is stored in Async Storage + In the memory ( Context API ).
 
+<img src="https://i.ibb.co/VYyK39r/login.png" alt="login" border="0" width="425"> <img src="https://i.ibb.co/ssv98tD/register.png" alt="register" border="0" width="425">
+<img src="https://i.ibb.co/Yt4nQ2k/registered.png" alt="registered" border="0" width="425"> <img src="https://i.ibb.co/NVHXc2D/loginin.png" alt="loginin" border="0" width="425">
 
 
 
@@ -48,6 +53,8 @@ New messages are shown instantly.
 ## Stack
 
 - Expo
+
+- UI Kitten
 
 - React Native 
 
