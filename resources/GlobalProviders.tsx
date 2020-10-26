@@ -1,5 +1,6 @@
 import { ApolloProvider } from "@apollo/client";
 import * as eva from "@eva-design/eva";
+import useColorScheme from "@hooks/useColorScheme";
 import {
   ApplicationProvider as KittenProvider,
   IconRegistry,
@@ -14,12 +15,13 @@ import ChatRoomProvider from "./contexts/chatroom";
 export interface Props {}
 
 const GlobalProviders: React.FC<Props> = ({ children }) => {
+  const colorScheme = useColorScheme();
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
       <ApolloProvider client={client}>
         <ChatRoomProvider>
-          <KittenProvider {...eva} theme={eva.light}>
+          <KittenProvider {...eva} theme={eva[colorScheme]}>
             {children}
           </KittenProvider>
         </ChatRoomProvider>
