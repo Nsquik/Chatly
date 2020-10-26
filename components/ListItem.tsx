@@ -9,7 +9,7 @@ export interface Props {
 }
 
 const renderItemIcon = (props: IconProps, fill?: string) => (
-  <Icon {...props} name="arrow-circle-right-outline" fill="#3366FF" />
+  <Icon {...props} name="arrow-circle-right-outline" fill="#FF3D71" />
 );
 
 const ListItem: React.FC<Props> = ({ item, index }) => {

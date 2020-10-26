@@ -1,25 +1,35 @@
+import Chat from "@components/Chat";
+import { StyledLayout as Layout } from "@components/Layout";
+import { useChatroomState } from "@hooks/useChatroomState";
+import { RouteProp } from "@react-navigation/native";
+import { HomeStackParams } from "@type/navigation";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
 
-export interface Props {}
+export interface Props {
+  route: RouteProp<HomeStackParams, "ChatRoom">;
+}
 
-const ChatRoom: React.FC<Props> = ({}) => {
+const ChatRoom: React.FC<Props> = ({ route }) => {
+  const { params: roomObj } = route;
+  const Chatroom = useChatroomState();
+  const { loadMessages, checkAndLoad, setChatOpen } = Chatroom;
+  const { called } = Chatroom.loadMessagesResult;
+
+  useEffect(() => {
+    Chatroom.checkAndLoad(roomObj);
+    setChatOpen(true);
+    return () => {
+      setChatOpen(false);
+    };
+  }, [loadMessages, called, checkAndLoad]);
+
   return (
-    <View style={styles.container}>
-      <Text>CHAT ROOM MOCK</Text>
+    <Layout level="1">
+      <Chat />
       <StatusBar style="auto" />
-    </View>
+    </Layout>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
-
-export default ChatRoom;
+export default React.memo(ChatRoom);

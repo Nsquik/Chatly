@@ -6,7 +6,7 @@ export const GET_USER_INFO = gql`
       firstName
       lastName
       email
-      id
+      _id: id
       role
     }
   }
