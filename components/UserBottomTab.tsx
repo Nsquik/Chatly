@@ -1,3 +1,4 @@
+import { ApolloClient, useApolloClient } from "@apollo/client";
 import { useStorageState } from "@hooks/useStorageState";
 import { useUserInfo } from "@hooks/useUserInfo";
 import { Button, Text, useTheme } from "@ui-kitten/components";
@@ -26,6 +27,7 @@ const StyledView = styled(View)`
 `;
 
 const UserBottomTab = () => {
+  const client = useApolloClient();
   const theme = useTheme();
   const { getFullName } = useUserInfo();
   const { removeToken } = useStorageState();
@@ -38,6 +40,8 @@ const UserBottomTab = () => {
         style={{ width: "100%", paddingTop: 5 }}
         onPress={async () => {
           await removeToken();
+          client.resetStore();
+          client.clearStore();
         }}
       >
         Log out

@@ -1,4 +1,3 @@
-import { API_KEY } from "@env";
 import { useStorageState } from "@hooks/useStorageState";
 import { createStackNavigator } from "@react-navigation/stack";
 import Auth from "@screens/Auth/Auth";
@@ -43,7 +42,7 @@ function HomeNavigator() {
         ),
       }}
     >
-      {token || API_KEY ? (
+      {token ? (
         <>
           <HomeStack.Screen
             name="ListRooms"

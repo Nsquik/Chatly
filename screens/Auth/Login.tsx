@@ -1,7 +1,14 @@
+import { useMutation } from "@apollo/client";
+import FormHandler from "@components/FormHandler";
 import FormInput from "@components/FormInput";
-import { Button } from "@ui-kitten/components";
+import { StyledLayout as Layout } from "@components/Layout";
+import { useStorageState } from "@hooks/useStorageState";
+import { LOGIN } from "@queries/auth";
+import { Button, Text } from "@ui-kitten/components";
+import { StatusBar } from "expo-status-bar";
 import { FormikProps } from "formik";
 import React from "react";
+import Toast from "react-native-toast-message";
 import * as yup from "yup";
 
 export const loginValidationSchema = yup.object().shape({
@@ -64,3 +71,43 @@ export const LoginFields: React.FC<Props> = ({ formik }) => {
     </>
   );
 };
+
+const LoginScreen = () => {
+  const { setTokenCb } = useStorageState();
+
+  const [logIn, { loading }] = useMutation(LOGIN, {
+    onCompleted: async ({ loginUser: { token } }) => {
+      await setTokenCb(token);
+      Toast.show({ type: "success", text1: "Logged in!", position: "bottom" });
+    },
+    onError: (error) => {
+      Toast.show({ type: "error", text1: error.message, position: "bottom" });
+    },
+  });
+  const loginOnSubmit = ({ password, email }: any) => {
+    logIn({ variables: { password, email } });
+  };
+  return (
+    <Layout
+      level="1"
+      style={{ justifyContent: "center", alignItems: "center" }}
+    >
+      <FormHandler
+        initialValues={loginInitialValues}
+        onSubmit={async (values, { resetForm }) => {
+          await loginOnSubmit(values);
+          resetForm();
+        }}
+        validator={loginValidationSchema}
+      >
+        {(formik) => {
+          return <LoginFields formik={formik} />;
+        }}
+      </FormHandler>
+      {loading && <Text status="warning">Logging in, please wait...</Text>}
+      <StatusBar style="auto" />
+    </Layout>
+  );
+};
+
+export default LoginScreen;
