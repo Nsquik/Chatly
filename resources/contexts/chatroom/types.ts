@@ -30,7 +30,7 @@ export type TOGGLE_SUBSCRIBED = {
 
 export type CLEAR_ALL = {
   type: ACTION_TYPES.CLEAR_ALL;
-  payload?: { value: STATE };
+  payload: any;
 };
 
 export type ChatroomActionTypes =

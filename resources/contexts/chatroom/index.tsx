@@ -1,3 +1,4 @@
+import { useChatRoom } from "@res/contexts/chatroom/useChatRoom";
 import React, { createContext } from "react";
 
 export const ChatRoomContext = createContext<object | undefined>(undefined);
@@ -5,8 +6,12 @@ export const ChatRoomContext = createContext<object | undefined>(undefined);
 export interface Props {}
 
 const ChatRoomProvider: React.FC<Props> = ({ children }) => {
+  const state = useChatRoom();
+
   return (
-    <ChatRoomContext.Provider value={{}}>{children}</ChatRoomContext.Provider>
+    <ChatRoomContext.Provider value={state}>
+      {children}
+    </ChatRoomContext.Provider>
   );
 };
 

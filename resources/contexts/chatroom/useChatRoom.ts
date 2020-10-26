@@ -1,4 +1,5 @@
 import { useLazyQuery } from "@apollo/client";
+import { GET_ROOM_MESSAGES } from "@queries/chatRoom";
 import {
   STATE,
   ChatroomActionTypes,
@@ -17,17 +18,35 @@ export const internalReducer = (state: STATE, action: ChatroomActionTypes) => {
 
   switch (type) {
     case ACTION_TYPES.CHANGE_ROOM:
-      return { ...state, currentRoom: payload?.value };
+      return { ...state, currentRoom: payload.value };
     case ACTION_TYPES.TOGGLE_SUBSCRIBED:
       return { ...state, subscribed: !state.subscribed };
     case ACTION_TYPES.UPDATE_MESSAGES:
-      return { ...state, messages: [...state.messages, payload?.value] };
+      return { ...state, messages: [...state.messages, payload.value] };
     case ACTION_TYPES.CLEAR_ALL:
-      return payload?.value || INIT_STATE;
+      return INIT_STATE;
+    default:
+      return state;
   }
 };
 
 export const useChatRoom = (
   initialState: STATE = INIT_STATE,
   reducer = internalReducer
-) => {};
+) => {
+  const userInitialState = useRef<STATE>(initialState);
+
+  const [state, dispatch] = useReducer<
+    (state: STATE, action: ChatroomActionTypes) => STATE
+  >(reducer, userInitialState.current);
+
+  const { currentRoom } = state;
+
+  const [loadMessages, loadMessagesResult] = useLazyQuery(GET_ROOM_MESSAGES, {
+    variables: { id: currentRoom?.id },
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (data) => {},
+  });
+
+  return { state, dispatch, loadMessages, loadMessagesResult };
+};
