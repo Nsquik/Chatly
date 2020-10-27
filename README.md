@@ -1,13 +1,6 @@
 # Chatly 🎃
 # <a href="https://ibb.co/bbYQj54"><img src="https://i.ibb.co/BnvcH2h/1.png" alt="1" border="0"></a>
 
-
-## TEST ACCOUNT
-`
-  login: penny@mail.com
-  password: asdfghJKl123!
-`
-
 ## About the project! 🎨
 
 Mobile chating app built with <b>React Native, Apollo, GraphQL, GraphQL PubSub </b>.
