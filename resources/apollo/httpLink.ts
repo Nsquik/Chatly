@@ -13,7 +13,7 @@ export const authLink = setContext(async (_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: true ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : "",
     },
   };
 });
